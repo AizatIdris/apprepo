@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from scapy.all import sniff, get_if_list
+
 from collections import defaultdict
 import time
 import threading
@@ -22,6 +22,7 @@ try:
 except ModuleNotFoundError:
     subprocess.check_call([sys.executable, "-m", "pip", "install", "scapy"])
     import scapy.all as scapy
+from scapy.all import sniff, get_if_list
 # Global variables to store packet data
 packet_data = []
 packet_counts = defaultdict(int)
