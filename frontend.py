@@ -1,28 +1,43 @@
+import subprocess
+import sys
+
+# Auto-install helper
+def install_if_missing(package):
+    try:
+        __import__(package)
+    except ImportError:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
+# List all required pip packages here (Python package names)
+required_packages = [
+    "streamlit",
+    "pandas",
+    "psutil",
+    "scapy",
+    "colorama",
+    "numpy",
+    "joblib",
+    "scikit-learn",
+    "tensorflow"
+]
+
+for pkg in required_packages:
+    install_if_missing(pkg)
 import streamlit as st
 import pandas as pd
-
-from collections import defaultdict
-import time
-import threading
 import psutil
-from datetime import datetime
-from pcap_analysis import analyze_pcap, load_model, predict_flows
-#from monitoring_script import NetworkMonitor
-from netnids import NetworkMonitor, alert_queue
-import sqlite3
-from datetime import timedelta
-from collections import deque
+from colorama import Fore, Style
+from datetime import datetime, timedelta
+from collections import defaultdict, deque
 import queue
 from queue import Empty
-from colorama import Fore, Style
-#from monitoring_script import alert_queue
+import sqlite3
 
-try:
-    import scapy.all as scapy
-except ModuleNotFoundError:
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "scapy"])
-    import scapy.all as scapy
+from pcap_analysis import analyze_pcap, load_model, predict_flows
+from netnids import NetworkMonitor, alert_queue
+
 from scapy.all import sniff, get_if_list
+
 # Global variables to store packet data
 packet_data = []
 packet_counts = defaultdict(int)
