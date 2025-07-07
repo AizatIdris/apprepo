@@ -17,7 +17,11 @@ from queue import Empty
 from colorama import Fore, Style
 #from monitoring_script import alert_queue
 
-
+try:
+    import scapy.all as scapy
+except ModuleNotFoundError:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "scapy"])
+    import scapy.all as scapy
 # Global variables to store packet data
 packet_data = []
 packet_counts = defaultdict(int)
